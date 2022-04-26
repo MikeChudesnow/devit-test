@@ -18,9 +18,9 @@ class PostsSeeder extends Seeder
         $xml = @simplexml_load_file("https://lifehacker.com/rss");
 
         foreach ($xml->xpath('//item') as $item) {
-           DB::table('posts')->insert([
+           Post::create([
                'title' => $item->title,
-               'description' => $item->description,
+               'description' => strip_tags($item->description),
                'pub_date' => $item->pubDate
            ]);
        }
